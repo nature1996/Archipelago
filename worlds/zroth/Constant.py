@@ -1,0 +1,4 @@
+
+GAMENAME: str = "ZROTH"
+
+STARTID: int = 65000
