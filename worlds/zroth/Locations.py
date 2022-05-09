@@ -53,6 +53,9 @@ Zroth_location = {
     "Medalion2": "WoodD5",
     "Medalion1": "Desert",
     "Bottle2": "Desert",
+    "Sword2": "Smith",
+    "Glove2": "Smith",
+    "Bow": "Smith",
     "Bottle1": "Kak",
     "Bow": "kak",
     "Medalion3": "Lake",
@@ -130,5 +133,5 @@ Zroth_location = {
     "D9K3": "D9",
     "D9K4": "D9",
     "D9Boss": "D9",
-    "Triforce": "D9",
+    "Triforce": "D9Top",
 }
