@@ -38,7 +38,7 @@ Zroth_progress = {
     "ProgressiveSword": 2,
     "Masterword": 1,
     "Gloves": 2,
-    "Arc": 2,
+    "Bow": 2,
     "Flipper": 1,
     "Hammer": 1,
     "Lamp": 1,
