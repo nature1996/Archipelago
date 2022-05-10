@@ -1,4 +1,4 @@
-Zroth_Region = {
+Zroth_regions: dict[str, dict[str, tuple[str, any]]] = {
     "Menu": {"NewGame": ("LinksHouse", None)},
     "LinksHouse": {"LinksExit": ("Wood", None)},
     "Wood": {
@@ -29,7 +29,7 @@ Zroth_Region = {
     },
 
     "Gutter": {
-        "GutterBackForest": ("WoodD5", lambda state, player: state._Zroth_can_rock(player, 2)),
+        "GutterBackWood": ("WoodD5", lambda state, player: state._Zroth_can_rock(player, 2)),
         "SecretPathAccess": ("SecretPath", lambda state, player: state._Zroth_can_rodHook(player))
     },
     "SecretPath": {
@@ -42,7 +42,7 @@ Zroth_Region = {
         "ToWood": ("Wood", lambda state, player: state._Zroth_can_rock(player, 1)),
         "ToMonsterHouse": ("MonsterHouse", None),
         "FieldToLake": ("LakeUp", None),
-        "FieldToCim":  ("Cimetary", None),
+        "FieldToCem":  ("Cemetery", None),
         "FieldToKak": ("Kak", lambda state, player: state.has("Hammer", player)),
         "FieldToLedge": ("KakLedge", lambda state, player: state.has("HookShot", player)),
         "FieldToMnt": ("Mountain", lambda state, player: state.has("HookShot", player))
@@ -138,7 +138,7 @@ Zroth_Region = {
                 state._Zroth_has_crystals(player, 4)
             )
         ),
-        "ToCimetary": ("Cimetary", lambda state, player: state.has("Hammer", player)),
+        "ToCemetery": ("Cemetery", lambda state, player: state.has("Hammer", player)),
         "ShadToLake": ("Lake", lambda state, player: state._Zroth_can_water(player))
     },
     "BookCave": {"BookToShadow": ("Shadow", lambda state, player: state._Zroth_can_bush(player))},
@@ -146,7 +146,7 @@ Zroth_Region = {
         "D5Ent1": ("D5", lambda state, player: state._Zroth_can_damage(player)),
         "ToWoodBottom": ("WoodBottom", lambda state, player: state.has("Hammer", player))
     },
-    "Cemetary": {
+    "Cemetery": {
         "ToShadow": ("Shadow", lambda state, player: state.has("Hammer", player)),
         "CemToField": ("Field", None)
     },
@@ -155,7 +155,7 @@ Zroth_Region = {
         "LandToLake": ("Lake", lambda state, player: state._Zroth_can_water(player)),
         "D6Ent1": ("D6Ent", lambda state, player: state.has("Hammer", player)),
         "ToD7": ("D7Area", lambda state, player: state._Zroth_can_rodHook(player)),
-        "LansToCastle": ("CastleGround", lambda state, player: state._Zroth_can_bushHook(player))
+        "LansToCastle": ("Castleground", lambda state, player: state._Zroth_can_bushHook(player))
     },
     "TurtleTop": {"D6Ent2": ("D6", None)},
 
@@ -173,7 +173,7 @@ Zroth_Region = {
     },
 
     "D1": {
-        "D1Ext1": ("Forest", lambda state, player: state._Zroth_can_bush(player)),
+        "D1Ext1": ("Wood", lambda state, player: state._Zroth_can_bush(player)),
         "D1ToE2": ("D1E2", lambda state, player: state._Zroth_can_bomb(player))
     },
     "D1E2": {

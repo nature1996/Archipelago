@@ -36,7 +36,7 @@ Zroth_other = {
 
 Zroth_progress = {
     "ProgressiveSword": 2,
-    "MasterSword": 1,
+    "MasterSword": 0,
     "Gloves": 2,
     "Bow": 2,
     "Flipper": 1,
@@ -63,7 +63,15 @@ Zroth_progress = {
     "SmallKeyD6": 3,
     "SmallKeyD7": 2,
     "SmallKeyD8": 2,
-    "SmallKeyD9": 4
+    "SmallKeyD9": 4,
+    "D1Crystal": 0,
+    "D2Crystal": 0,
+    "D3Crystal": 0,
+    "D4Crystal": 0,
+    "D5Crystal": 0,
+    "D6Crystal": 0,
+    "D7Crystal": 0,
+    "Triforce": 0
 }
 
 Zroth_items = Zroth_other.copy()

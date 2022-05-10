@@ -5,13 +5,13 @@ from ..AutoWorld import LogicMixin
 
 class ZrothLogic(LogicMixin):
     def _Zroth_has_Dkey(self, player: int, dungeon: int, amount: int = 1):
-        return self.has("SmallKeyD"+dungeon, player, amount)
+        return self.has("SmallKeyD"+str(dungeon), player, amount)
 
     def _Zroth_has_Bkey(self, player: int, dungeon: int):
-        return self.has("BossKeyD"+dungeon, player)
+        return self.has("BossKeyD"+str(dungeon), player)
 
     def _Zroth_has_crystals(self, player: int, amount: int = 7):
-        return self.has("crystal", player, amount)
+        return self.has_group("Crystals", player, amount)
 
     def _Zroth_has_monster(self, player: int, amount: int):
         return self._Zroth_has_crystals(player)
@@ -45,7 +45,7 @@ class ZrothLogic(LogicMixin):
         return pot or sword or hook
 
     def _Zroth_can_fire(self, player: int):
-        fire = self.has_group("FireSource", player)
+        fire = self.has_group("FireSources", player)
         magic = self._Zroth_can_amunition(player)
         return fire and magic
 

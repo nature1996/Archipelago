@@ -56,12 +56,12 @@ Zroth_locations = {
         )
     ),
     "POH25": ("D2Cave", lambda state, player: state.has("HookShot", player)),
-    "POH26": ("MonsterMan", lambda state, player: state._Zroth_has_monster(player, 1)),
-    "POH27": ("MonsterMan", lambda state, player: state._Zroth_has_monster(player, 2)),
-    "POH28": ("MonsterMan", lambda state, player: state._Zroth_has_monster(player, 3)),
-    "POH29": ("MonsterMan", lambda state, player: state._Zroth_has_monster(player, 4)),
-    "POH30": ("MonsterMan", lambda state, player: state._Zroth_has_monster(player, 5)),
-    "POH31": ("MonsterMan", lambda state, player: state._Zroth_has_monster(player, 6)),
+    "POH26": ("MonsterHouse", lambda state, player: state._Zroth_has_monster(player, 1)),
+    "POH27": ("MonsterHouse", lambda state, player: state._Zroth_has_monster(player, 2)),
+    "POH28": ("MonsterHouse", lambda state, player: state._Zroth_has_monster(player, 3)),
+    "POH29": ("MonsterHouse", lambda state, player: state._Zroth_has_monster(player, 4)),
+    "POH30": ("MonsterHouse", lambda state, player: state._Zroth_has_monster(player, 5)),
+    "POH31": ("MonsterHouse", lambda state, player: state._Zroth_has_monster(player, 6)),
     # Game
     "POH32": ("Kak", lambda state, player: state._Zroth_can_amunition(player)),
     "POH33": ("Kak", None),  # Tavern
@@ -106,7 +106,7 @@ Zroth_locations = {
     ),
     "Bow": ("Smith", lambda state, player: state.has("Bow", player)),
     "Bottle1": ("Kak", lambda state, player: state._Zroth_can_amunition(player)),
-    "Bow": ("kak", lambda state, player: state._Zroth_can_amunition(player)),
+    "Bow": ("Kak", lambda state, player: state._Zroth_can_amunition(player)),
     "Medalion3": (
         "Lake",
         lambda state, player: (
