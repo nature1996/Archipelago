@@ -36,7 +36,7 @@ Zroth_other = {
 
 Zroth_progress = {
     "ProgressiveSword": 2,
-    "Masterword": 1,
+    "MasterSword": 1,
     "Gloves": 2,
     "Bow": 2,
     "Flipper": 1,
