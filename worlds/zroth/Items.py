@@ -66,4 +66,5 @@ Zroth_progress = {
     "SmallKeyD9": 4
 }
 
-Zroth_items = Zroth_other+Zroth_progress
+Zroth_items = Zroth_other.copy()
+Zroth_items.update(Zroth_progress)
