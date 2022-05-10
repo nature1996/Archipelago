@@ -55,7 +55,7 @@ class ZrothWorld(World):
         # Region
         exit_to_link: dict[str, tuple[str, any]] = {}
         for region, exits in Zroth_regions.items():
-            r = Region(region, None, region, self.player, self.world)
+            r = Region(region, 0, region, self.player, self.world)
             for exit in exits.keys():
                 r.exits.append(Entrance(self.player, exit, r))
             exit_to_link.update(exits)
@@ -63,19 +63,21 @@ class ZrothWorld(World):
 
         for exit, data in exit_to_link.items():
             e = self.world.get_entrance(exit, self.player)
-            e.connect(self.world.get_region(data[0], self.player))
-            if (data[1] != None):
-                set_rule(e, lambda state: data[1](state, self.player))
+            for conection, test in data.items():
+                e.connect(self.world.get_region(conection, self.player))
+                if (test != None):
+                    set_rule(e, lambda state: test(state, self.player))
 
         # Location
         for location, data in Zroth_locations.items():
-            r = self.world.get_region(data[0], self.player)
-            l = ZrothLocation(self.player, location,
-                              self.location_name_to_id[location], r)
-            r.locations.append(l)
+            for region, test in data.items():
+                r = self.world.get_region(region, self.player)
+                l = ZrothLocation(self.player, location,
+                                  self.location_name_to_id[location], r)
+                r.locations.append(l)
 
-            if (data[1] != None):
-                set_rule(l, lambda state: data[1](state, self.player))
+                if (test != None):
+                    set_rule(l, lambda state: test(state, self.player))
         return
 
     def create_items(self) -> None:
