@@ -6,3 +6,35 @@ from ..AutoWorld import World
 from Utils import get_options, output_path
 
 from .Constant import GAMENAME, STARTID
+from .Logic import ZrothLogic
+
+
+class ZrothWorld(World):
+
+    game: str = GAMENAME
+
+    topology_peresent: bool = True
+    remote_items: bool = False
+    remote_start_inventory: bool = False
+
+    date_version = 0
+
+    base_id = STARTID
+
+    item_name_to_id = {name: id for
+                       id, name in enumerate(Zroth_items.keys(), base_id)
+                       }
+    location_name_to_id = {name: id for
+                           id, name in enumerate(
+                               Zroth_locations.keys(), base_id)
+                           }
+
+    item_name_groups = {
+        "Swords": {"ProgressiveSword", "MasterSword"},
+        "FireSource": {"Lamp", "FireRod"}
+    }
+
+    _entrance_rules = []
+
+    def create_regions(self) -> None:
+        return super().create_regions()
