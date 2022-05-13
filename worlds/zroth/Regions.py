@@ -1,16 +1,3 @@
-""" dict[str, dict[str, set[str, any]]] """
-from .Options import Zroth_options  # the options we defined earlier
-# data used below to add items to the World
-from .Items import ZrothItem, Zroth_progress, Zroth_other, Zroth_items
-from .Locations import ZrothLocation, Zroth_locations  # same as above
-from ..AutoWorld import World
-from BaseClasses import Region, Location, Entrance, Item
-from Utils import get_options, output_path
-from ..generic.Rules import add_rule, set_rule, forbid_item, add_item_rule
-
-from .Constant import GAMENAME, STARTID
-from . import Logic
-
 Zroth_regions = {
     "Menu": {"NewGame": {"LinksHouse": None}},
     "LinksHouse": {"LinksExit": {"Wood": None}},

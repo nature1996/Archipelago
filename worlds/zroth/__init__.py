@@ -19,8 +19,8 @@ class ZrothWorld(World):
     options = Zroth_options
 
     topology_peresent: bool = True
-    remote_items: bool = False
-    remote_start_inventory: bool = False
+    remote_items: bool = True
+    remote_start_inventory: bool = True
 
     date_version = 0
 
@@ -54,6 +54,10 @@ class ZrothWorld(World):
     def create_regions(self) -> None:
         # Region
         exit_to_link: dict[str, tuple[str, any]] = {}
+
+        def make_rule(rule):
+            return lambda state: rule(state, self.player)
+
         for region, exits in Zroth_regions.items():
             r = Region(region, 0, region, self.player, self.world)
             for exit in exits.keys():
@@ -66,7 +70,7 @@ class ZrothWorld(World):
             for conection, test in data.items():
                 e.connect(self.world.get_region(conection, self.player))
                 if (test != None):
-                    set_rule(e, lambda state: test(state, self.player))
+                    set_rule(e, make_rule(test))
 
         # Location
         for location, data in Zroth_locations.items():
@@ -77,7 +81,7 @@ class ZrothWorld(World):
                 r.locations.append(l)
 
                 if (test != None):
-                    set_rule(l, lambda state: test(state, self.player))
+                    set_rule(l, make_rule(test))
         return
 
     def create_items(self) -> None:

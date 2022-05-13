@@ -42,7 +42,7 @@ Zroth_progress = {
     "Flipper": 1,
     "Hammer": 1,
     "Lamp": 1,
-    "Hookshot": 1,
+    "HookShot": 1,
     "FireRod": 1,
     "IceRod": 1,
     "Book": 1,

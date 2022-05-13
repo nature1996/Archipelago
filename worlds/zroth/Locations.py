@@ -453,7 +453,7 @@ Zroth_locations = {
         lambda state, player: (
             state._Zroth_can_damage(player)
             and
-            state.has("HoodShot", player)
+            state.has("HookShot", player)
         )
     },
     "D7K1": {
