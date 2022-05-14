@@ -22,7 +22,7 @@ class ZrothWorld(World):
     remote_items: bool = True
     remote_start_inventory: bool = True
 
-    date_version = 0
+    data_version = 0
 
     base_id = STARTID
 
