@@ -376,7 +376,7 @@ Zroth_locations = {
         lambda state, player: (
             state._Zroth_has_Bkey(player, 4)
             and
-            state._Zroth_can_damage(player)
+            state._Zroth_can_reflect(player)
         )
     },
 
