@@ -71,7 +71,13 @@ Zroth_locations = {
     "POH33": {"Kak": None},  # Tavern
     # Games
     "POH34": {"Desert": lambda state, player: state._Zroth_can_amunition(player)},
-    "POH35": {"Shadow": lambda state, player: state._Zroth_can_amunition(player)},
+    "POH35": {
+        "Shadow":
+        lambda state, player: (
+            state._Zroth_can_amunition(player)
+            and
+            state.has("Book", player)
+        )},
 
     "Shield": {"LinksHouse": None},
     "Sword1": {"Wood": None},
@@ -532,6 +538,8 @@ Zroth_locations = {
             state._Zroth_has_Bkey(player, 8)
             and
             state._Zroth_can_damage(player)
+            and
+            state.has("Hammer", player)
         )
     },
 
