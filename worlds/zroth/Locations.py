@@ -60,12 +60,12 @@ Zroth_locations = {
         )
     },
     "POH25": {"D2Cave": lambda state, player: state.has("HookShot", player)},
-    "POH26": {"MonsterHouse": lambda state, player: state._Zroth_has_monster(player, 1)},
-    "POH27": {"MonsterHouse": lambda state, player: state._Zroth_has_monster(player, 2)},
-    "POH28": {"MonsterHouse": lambda state, player: state._Zroth_has_monster(player, 3)},
-    "POH29": {"MonsterHouse": lambda state, player: state._Zroth_has_monster(player, 4)},
-    "POH30": {"MonsterHouse": lambda state, player: state._Zroth_has_monster(player, 5)},
-    "POH31": {"MonsterHouse": lambda state, player: state._Zroth_has_monster(player, 6)},
+    "POH26": {"MonsterHouse": lambda state, player: state._Zroth_has_monster(player, 7)},
+    "POH27": {"MonsterHouse": lambda state, player: state._Zroth_has_monster(player, 14)},
+    "POH28": {"MonsterHouse": lambda state, player: state._Zroth_has_monster(player, 21)},
+    "POH29": {"MonsterHouse": lambda state, player: state._Zroth_has_monster(player, 28)},
+    "POH30": {"MonsterHouse": lambda state, player: state._Zroth_has_monster(player, 35)},
+    "POH31": {"MonsterHouse": lambda state, player: state._Zroth_has_monster(player, 42)},
     # Game
     "POH32": {"Kak": lambda state, player: state._Zroth_can_amunition(player)},
     "POH33": {"Kak": None},  # Tavern
@@ -102,7 +102,7 @@ Zroth_locations = {
     "Glove2": {
         "Smith":
         lambda state, player: (
-            state._Zroth_has_crystals(player, 7)
+            state._Zroth_has_crystals(player, 3)
             and
             state.has("Gloves", player)
         )
@@ -110,7 +110,7 @@ Zroth_locations = {
     "Bow2": {
         "Smith":
         lambda state, player: (
-            state._Zroth_has_crystals(player, 3)
+            state._Zroth_has_crystals(player, 7)
             and
             state.has("Bow", player)
         )
