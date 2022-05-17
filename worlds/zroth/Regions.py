@@ -200,9 +200,13 @@ Zroth_regions = {
         "D9Ext2": {
             "Castletop":
             lambda state, player: (
-                state._Zroth_can_fire(player)
-                or
-                state.has_group("Swords", player)
+                (
+                    state._Zroth_can_fire(player)
+                    or
+                    state.has_group("Swords", player)
+                )
+                and
+                state._Zroth_has_Dkey(player, 9, 4)
             )
         }},
 
