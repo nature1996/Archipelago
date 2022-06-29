@@ -1,16 +1,17 @@
 from __future__ import annotations
 
 import logging
-from typing import Dict, FrozenSet, Set, Tuple, List, Optional, TextIO, Any, Callable, Union
+import sys
+from typing import Dict, FrozenSet, Set, Tuple, List, Optional, TextIO, Any, Callable, Union, NamedTuple
 
-from BaseClasses import MultiWorld, Item, CollectionState, Location
+from BaseClasses import MultiWorld, Item, CollectionState, Location, Tutorial
 from Options import Option
 
 
 class AutoWorldRegister(type):
-    world_types: Dict[str, AutoWorldRegister] = {}
+    world_types: Dict[str, type(World)] = {}
 
-    def __new__(cls, name: str, bases: Tuple[type, ...], dct: Dict[str, Any]) -> AutoWorldRegister:
+    def __new__(mcs, name: str, bases: Tuple[type, ...], dct: Dict[str, Any]) -> AutoWorldRegister:
         if "web" in dct:
             assert isinstance(dct["web"], WebWorld), "WebWorld has to be instantiated."
         # filter out any events
@@ -38,9 +39,10 @@ class AutoWorldRegister(type):
                                                          base.__dict__["required_client_version"])
 
         # construct class
-        new_class = super().__new__(cls, name, bases, dct)
+        new_class = super().__new__(mcs, name, bases, dct)
         if "game" in dct:
             AutoWorldRegister.world_types[dct["game"]] = new_class
+        new_class.__file__ = sys.modules[new_class.__module__].__file__
         return new_class
 
 
@@ -90,8 +92,15 @@ class WebWorld:
     # display a settings page. Can be a link to an out-of-ap settings tool too.
     settings_page: Union[bool, str] = True
 
+    # docs folder will be scanned for game info pages using this list in the format '{language}_{game_name}.md'
+    game_info_languages: List[str] = ['en']
+
+    # docs folder will also be scanned for tutorial guides given the relevant information in this list. Each Tutorial
+    # class is to be used for one guide.
+    tutorials: List[Tutorial]
+
     # Choose a theme for your /game/* pages
-    # Available: dirt, grass, grassFlowers, ice, jungle, ocean, partyTime
+    # Available: dirt, grass, grassFlowers, ice, jungle, ocean, partyTime, stone
     theme = "grass"
 
     # display a link to a bug report page, most likely a link to a GitHub issue page.

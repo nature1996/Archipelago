@@ -6,7 +6,8 @@ from typing import Dict, NamedTuple, Optional
 
 from BaseClasses import Item, MultiWorld
 from . import StaticWitnessLogic, WitnessPlayerLocations, WitnessPlayerLogic
-from .Options import is_option_enabled
+from .Options import get_option_value, is_option_enabled, the_witness_options
+from fractions import Fraction
 
 
 class ItemData(NamedTuple):
@@ -17,6 +18,7 @@ class ItemData(NamedTuple):
     progression: bool
     event: bool = False
     trap: bool = False
+    never_exclude: bool = False
 
 
 class WitnessItem(Item):
@@ -33,16 +35,23 @@ class StaticWitnessItems:
 
     ALL_ITEM_TABLE: Dict[str, ItemData] = {}
 
-    JUNK_WEIGHTS = {
-        "Speed Boost": 1,
-        "Slowness": 0.8,
-        "Power Surge": 0.2,
+    # These should always add up to 1!!!
+    BONUS_WEIGHTS = {
+        "Speed Boost": Fraction(1, 1),
     }
+
+    # These should always add up to 1!!!
+    TRAP_WEIGHTS = {   
+        "Slowness": Fraction(8, 10),
+        "Power Surge": Fraction(2, 10),
+    }
+
+    ALL_JUNK_ITEMS = set(BONUS_WEIGHTS.keys()) | set(TRAP_WEIGHTS.keys())
 
     def __init__(self):
         item_tab = dict()
 
-        for item in StaticWitnessLogic.ALL_ITEMS:
+        for item in StaticWitnessLogic.ALL_SYMBOL_ITEMS.union(StaticWitnessLogic.ALL_DOOR_ITEMS):
             if item[0] == "11 Lasers" or item == "7 Lasers":
                 continue
 
@@ -55,6 +64,9 @@ class StaticWitnessItems:
 
         for item in StaticWitnessLogic.ALL_BOOSTS:
             item_tab[item[0]] = ItemData(158000 + item[1], False, False)
+
+        for item in StaticWitnessLogic.ALL_USEFULS:
+            item_tab[item[0]] = ItemData(158000 + item[1], False, False, False, item[2])
 
         item_tab = dict(sorted(
             item_tab.items(),
@@ -75,11 +87,35 @@ class WitnessPlayerItems:
         """Adds event items after logic changes due to options"""
         self.EVENT_ITEM_TABLE = dict()
         self.ITEM_TABLE = copy.copy(StaticWitnessItems.ALL_ITEM_TABLE)
+        self.PROGRESSION_TABLE = dict()
 
-        self.GOOD_ITEMS = [
-            "Dots", "Black/White Squares", "Stars",
-            "Shapers", "Symmetry"
-        ]
+        self.EXTRA_AMOUNTS = {
+            "Functioning Brain": 1,
+            "Puzzle Skip": get_option_value(world, player, "puzzle_skip_amount")
+        }
+
+        for item in StaticWitnessLogic.ALL_SYMBOL_ITEMS.union(StaticWitnessLogic.ALL_DOOR_ITEMS):
+            if item not in player_logic.PROG_ITEMS_ACTUALLY_IN_THE_GAME:
+                del self.ITEM_TABLE[item[0]]
+            else:
+                self.PROGRESSION_TABLE[item[0]] = self.ITEM_TABLE[item[0]]
+
+        symbols = is_option_enabled(world, player, "shuffle_symbols")
+
+        if "shuffle_symbols" not in the_witness_options.keys():
+            symbols = True
+
+        doors = is_option_enabled(world, player, "shuffle_doors")
+
+        if doors and symbols:
+            self.GOOD_ITEMS = [
+                "Dots", "Black/White Squares", "Symmetry"
+            ]
+        elif symbols:
+            self.GOOD_ITEMS = [
+                "Dots", "Black/White Squares", "Stars",
+                "Shapers", "Symmetry"
+            ]
 
         if is_option_enabled(world, player, "shuffle_discarded_panels"):
             self.GOOD_ITEMS.append("Triangles")
@@ -91,8 +127,28 @@ class WitnessPlayerItems:
             self.EVENT_ITEM_TABLE[location] = ItemData(None, True, True)
             self.ITEM_TABLE[location] = ItemData(None, True, True)
 
+        trap_percentage = get_option_value(world, player, "trap_percentage")
+
+        self.JUNK_WEIGHTS = dict()
+
+        if trap_percentage != 0:
+            # I'm sure there must be some super "pythonic" way of doing this :D
+
+            for trap_name, trap_weight in StaticWitnessItems.TRAP_WEIGHTS.items():
+                self.JUNK_WEIGHTS[trap_name] = (trap_weight * trap_percentage) / 100
+
+        if trap_percentage != 100:
+            for bonus_name, bonus_weight in StaticWitnessItems.BONUS_WEIGHTS.items():
+                self.JUNK_WEIGHTS[bonus_name] = (bonus_weight * (100 - trap_percentage)) / 100
+
         self.JUNK_WEIGHTS = {
             key: value for (key, value)
-            in StaticWitnessItems.JUNK_WEIGHTS.items()
+            in self.JUNK_WEIGHTS.items()
             if key in self.ITEM_TABLE.keys()
         }
+
+        # JUNK_WEIGHTS will add up to 1 if the boosts weights and the trap weights each add up to 1 respectively.
+
+        for junk_item in StaticWitnessItems.ALL_JUNK_ITEMS:
+            if junk_item not in self.JUNK_WEIGHTS.keys():
+                del self.ITEM_TABLE[junk_item]

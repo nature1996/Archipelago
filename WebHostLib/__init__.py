@@ -46,7 +46,7 @@ app.config["PONY"] = {
     'create_db': True
 }
 app.config["MAX_ROLL"] = 20
-app.config["CACHE_TYPE"] = "simple"
+app.config["CACHE_TYPE"] = "flask_caching.backends.SimpleCache"
 app.config["JSON_AS_ASCII"] = False
 app.config["PATCH_TARGET"] = "archipelago.gg"
 
@@ -129,12 +129,21 @@ def tutorial(game, file, lang):
 
 @app.route('/tutorial/')
 def tutorial_landing():
+    worlds = {}
+    for game, world in AutoWorldRegister.world_types.items():
+        if not world.hidden:
+            worlds[game] = world
     return render_template("tutorialLanding.html")
 
 
 @app.route('/faq/<string:lang>/')
 def faq(lang):
     return render_template("faq.html", lang=lang)
+
+
+@app.route('/glossary/<string:lang>/')
+def terms(lang):
+    return render_template("glossary.html", lang=lang)
 
 
 @app.route('/seed/<suuid:seed>')
@@ -166,7 +175,12 @@ def _read_log(path: str):
 
 @app.route('/log/<suuid:room>')
 def display_log(room: UUID):
-    return Response(_read_log(os.path.join("logs", str(room) + ".txt")), mimetype="text/plain;charset=UTF-8")
+    room = Room.get(id=room)
+    if room is None:
+        return abort(404)
+    if room.owner == session["_id"]:
+        return Response(_read_log(os.path.join("logs", str(room.id) + ".txt")), mimetype="text/plain;charset=UTF-8")
+    return "Access Denied", 403
 
 
 @app.route('/room/<suuid:room>', methods=['GET', 'POST'])
